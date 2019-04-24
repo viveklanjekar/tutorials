@@ -20,7 +20,7 @@ services:
       - apm
       - mysql
   kibana:
-    image: kibana:6.5.2
+    image: kibana:7.0.0
     environment:
       - "LOGGING_QUIET=true"
     links:
@@ -29,12 +29,14 @@ services:
       - 5601:5601
 
   elasticsearch:
-    image: apm-java/elasticsearch:1.0.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
     build:
       context: elasticsearch
       dockerfile: Dockerfile
     environment:
+      - node.name=es01
       - cluster.name=apm-java
+      - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
     ulimits:
